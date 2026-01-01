@@ -12,7 +12,6 @@ import { CircularProgress } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import googleGLogo from "../../../../assets/images/google-g-logo.svg";
 
 const Form: React.FC = () => {
   const navigate = useNavigate();
@@ -32,8 +31,8 @@ const Form: React.FC = () => {
     firstname: Yup.string()
       .trim()
       .required("First name is required")
-      .matches(/^[a-zA-Z0-9]+$/, "First name must be alphanumeric"),
-    // .max(50, "First name is too long"),
+      .matches(/^[a-zA-Z0-9]+$/, "First name must be alphanumeric")
+      .max(50, "First name is too long"),
     lastname: Yup.string()
       .trim()
       .required("Last name is required")
@@ -73,21 +72,21 @@ const Form: React.FC = () => {
       };
 
       try {
-        const response = await dispatch(registerUser(payload));
+        const response = await dispatch(registerUser(payload)).unwrap();
         console.log("Hello tom y response", response);
-        if (response.payload.status === "success") {
-          toast.success(response.payload.msg, { position: "top-right" });
-          setTimeout(() => navigate("/auth/login"), 3000);
-        } else {
-          toast.error(response.payload.msg, { position: "top-right" });
-        }
+        toast.success("Register successful", { position: "top-right" });
+        setTimeout(() => navigate("/auth/login"), 3000);
       } catch (err: unknown) {
-        if (err instanceof Error) {
+        if (typeof err === "string") {
+          setError(err);
+          toast.error(err, { position: "top-right" });
+        } else if (err instanceof Error) {
           setError(err.message);
+          toast.error(err.message, { position: "top-right" });
         } else {
           setError("Something went wrong");
+          toast.error("Something went wrong", { position: "top-right" });
         }
-        // setError(err.data?.errors || "Something went wrong");
       } finally {
         setLogging(false);
       }

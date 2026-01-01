@@ -1,7 +1,4 @@
-// src/store/tasksSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import type { PayloadAction } from "@reduxjs/toolkit";
-// import axios from "axios";
 import taskAPI from "../../api/task";
 import { AxiosError } from "axios";
 import type {
@@ -47,8 +44,8 @@ export const fetchTasks = createAsyncThunk<
   { rejectValue: string }
 >("tasks", async (_, thunkApi) => {
   try {
-    const response = await taskAPI.getTasks(); // AxiosResponse
-    const tasks: Task[] = response.data.data.tasks; // access nested tasks
+    const response = await taskAPI.getTasks();
+    const tasks: Task[] = response.data.data.tasks;
     return tasks;
   } catch (error: unknown) {
     let message = "Failed to fetch tasks";
@@ -59,7 +56,7 @@ export const fetchTasks = createAsyncThunk<
   }
 });
 
-// 🔹 Create task
+// Create task
 export const createTask = createAsyncThunk<
   Task,
   CreateTaskPayload,
@@ -77,7 +74,7 @@ export const createTask = createAsyncThunk<
   }
 });
 
-// 🔹 Update task
+// Update task
 export const updateTask = createAsyncThunk<
   Task,
   UpdateTaskPayload,
@@ -95,7 +92,7 @@ export const updateTask = createAsyncThunk<
   }
 });
 
-// 🔹 Delete task
+// Delete task
 export const deleteTask = createAsyncThunk<
   string,
   TaskPayloadProps,
@@ -132,7 +129,6 @@ const tasksSlice = createSlice({
         state.error = action.payload || "Failed to fetch tasks";
       })
 
-      /* ---------- Create ---------- */
       .addCase(createTask.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -146,7 +142,6 @@ const tasksSlice = createSlice({
         state.error = action.payload ?? "Failed to create task";
       })
 
-      /* ---------- Update ---------- */
       .addCase(updateTask.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -165,7 +160,6 @@ const tasksSlice = createSlice({
         state.error = action.payload ?? "Failed to update task";
       })
 
-      /* ---------- Delete ---------- */
       .addCase(deleteTask.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -181,5 +175,4 @@ const tasksSlice = createSlice({
   },
 });
 
-// export const { updateTask } = tasksSlice.actions;
 export default tasksSlice.reducer;

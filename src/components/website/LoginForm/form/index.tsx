@@ -6,7 +6,6 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import googleGLogo from "../../../../assets/images/google-g-logo.svg";
 import { useAppDispatch } from "../../../../hooks/useTypedSelector";
 import { loginUser } from "../../../../redux/features/auth/authSlice";
 
@@ -37,18 +36,10 @@ const Form: React.FC = () => {
         const response = await dispatch(loginUser(values)).unwrap();
         console.log("Response in the form login : ", response);
         toast.success("Login successful", { position: "top-right" });
-        navigate(from || "/tasks");
-        // if (response.payload.status === "success") {
-        //   toast.success(response.payload.msg, { position: "top-right" });
-        //   navigate(from || "/tasks");
-        // } else {
-        //   toast.error(response.payload.msg || "Login failed", {
-        //     position: "top-right",
-        //   });
-        // }
+        navigate(from || "/");
       } catch (err: unknown) {
         if (typeof err === "string") {
-          setError(err); // unwrap returns rejectWithValue string
+          setError(err);
           toast.error(err, { position: "top-right" });
         } else if (err instanceof Error) {
           setError(err.message);
@@ -57,11 +48,6 @@ const Form: React.FC = () => {
           setError("Something went wrong");
           toast.error("Something went wrong", { position: "top-right" });
         }
-        // if (err instanceof Error) {
-        //   setError(err.message);
-        // } else {
-        //   setError("Something went wrong");
-        // }
       } finally {
         setLoading(false);
       }
@@ -74,10 +60,6 @@ const Form: React.FC = () => {
       return () => clearTimeout(timeout);
     }
   }, [error]);
-
-  // const handleGoogleLogin = () => {
-  //   window.location.href = "http://localhost:4040/api/ecommerce/v1/auth/google";
-  // };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow rounded-md">

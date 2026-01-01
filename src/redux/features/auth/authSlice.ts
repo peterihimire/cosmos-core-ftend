@@ -11,16 +11,6 @@ import {
 import { AxiosError } from "axios";
 import type { UserPayloadProps, UserLoginProps } from "../../../types/types";
 
-// interface LoginResponse {
-//   status: string;
-//   msg: string;
-//   _id: string;
-//   firstname: string;
-//   lastname: string;
-//   email: string;
-//   role: string;
-//   accessToken: string;
-// }
 interface UserData {
   firstname: string;
   lastname: string;
@@ -71,17 +61,17 @@ export const loginUser = createAsyncThunk<
   console.log("My login payload: ", payload);
   try {
     const response = await authAPI.loginUser(payload);
-   const { status, msg, data } = response.data;
+    const { status, msg, data } = response.data;
 
-   if (status !== "success") {
-     return thunkApi.rejectWithValue(msg || "Login failed");
-   }
+    if (status !== "success") {
+      return thunkApi.rejectWithValue(msg || "Login failed");
+    }
 
-   // Save user data to localStorage
-   saveToLocalStorage("login_user", data);
+    // Save user data to localStorage
+    saveToLocalStorage("login_user", data);
 
-   // Return only the data object for Redux
-   return data;
+    // Return only the data object for Redux
+    return data;
   } catch (error) {
     console.log("This is error message,lets see...", error);
     let message = "Failed to login";

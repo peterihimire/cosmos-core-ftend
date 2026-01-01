@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Form from "../form"; // Ensure folder casing matches actual folder name
+import Form from "../form";
 import backgroundImg from "../../../../assets/images/pexels-frans-van-heerden-201846-847371.jpeg";
 
 const Register: React.FC = () => {
