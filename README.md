@@ -1,4 +1,4 @@
-# Cosmos Core Assessment
+# Cosmos Core Assessment Frontend
 
 ## Introduction
 
@@ -9,25 +9,20 @@ This project is a lightweight SaaS Platform is designed to streamline task assig
 - **Authentication**: User authentication and authorization
 - **Admin Project & Task Management**: Create, update, and delete projects and tasks.
 - **Task Assignment & Automation**: Users can claim open tasks, and tasks are automatically expired or reassigned when needed.
-- **Audit Logging**: All critical actions of task claim etc. are logged to maintain visibility and accountability.
 - **Role-Based Access Control**: (ADMIN | USER) have access permissions tailored to their responsibilities.
 - **Resilient & Reliable**: Handles access token and refresh token expiration securely and gracefully
 - **Error Handling & Resilience**: Handles token expiration and ensure app stability
-<!-- - **Rate Limit**: Rate Limit on the claim task API -->
 - **Polling for Real-Time Updates**: Atomic updates with conditions for expiring and re-assigning task
 
 ## Table of Contents
 
 - [Setup](#setup)
-- [Prerequisites](#prerequisites)
+- [Tech Stack](#tech-stack)
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
 - [Running the Server](#running-the-server)
 - [API Documentation](#api-documentation)
-- [Design Decisions](#design-decisions)
-- [Trade Offs](#trade-offs)
-- [How Race Condition Was Handled](#how-race-condition-was-handled)
-- [How Task Expiration Works](#how-task-expiration-works)
+- [Architechture And Design Decisions](#architecture-and-design-decisions)
 - [Future Improvements](#future-improvements)
 - [Contributing](#contributing)
 - [License](#license)
@@ -42,11 +37,7 @@ Follow these instructions to set up the project on your local machine.
 
 **Frontend**: React, Redux Toolkit, Tailwind CSS, Axios
 
-<!-- **Backend**: Node.js, Express, TypeScript -->
-
 **Authentication**: JWT (access token & refresh token)
-
-<!-- **Database**: MongoDB and Mongoose -->
 
 **API Requests**: Axios with interceptors for token refresh and error handling
 
@@ -85,8 +76,6 @@ The project requires several environment variables to be configured. Here’s a 
 - `VITE_BASE_API_URL`=https://your-backend-server.com/api
 - `VITE_NODE_ENV`=development
 
-
-
 Ensure these variables are set in your `.env` file as specified in the [Installation](#installation) section.
 
 ## Running the Server
@@ -103,12 +92,12 @@ Ensure these variables are set in your `.env` file as specified in the [Installa
 
 Visit the Postman documentation [Link](https://documenter.getpostman.com/view/12340633/2sBXVcjsQz) of this mini task management SaaS app.
 
-## Architechture & Design Decisions
+## Architechture And Design Decisions
 
 **React + Redux Toolkit**:
 
 - Redux Toolkit is used for state management to handle tasks, user sessions, and UI updates.
--	Async thunks (createAsyncThunk) manage API calls for CRUD operations on tasks.
+- Async thunks (createAsyncThunk) manage API calls for CRUD operations on tasks.
 
 **Token-based Authentication with Refresh**:
 
@@ -117,6 +106,7 @@ Visit the Postman documentation [Link](https://documenter.getpostman.com/view/12
 - Automatic token refresh handled in frontend Axios interceptors.
 
 **Error Isolation**:
+
 - Each slice (tasks, auth) handles its own errors to avoid global app failure.
 - Axios interceptors retry requests when tokens expire, ensuring seamless user experience.
 
@@ -127,8 +117,8 @@ Visit the Postman documentation [Link](https://documenter.getpostman.com/view/12
 
 **Role-Based UI Controls:**:
 
--	ADMIN role can see create, edit, delete tasks on the UI, but not functional
--	USER role can claim and complete tasks only 
+- ADMIN role can see create, edit, delete tasks on the UI, but not functional
+- USER role can claim and complete tasks only
 
 **TypeScript**:
 
@@ -140,13 +130,12 @@ Visit the Postman documentation [Link](https://documenter.getpostman.com/view/12
 
 - Only authenticated users can view task
 
-
 ## Future Improvements
 
 - Replace polling with WebSockets for real-time updates.
 - Add email notifications for task assignments & expirations
 - Implement more granular roles & permissions
-- Add unit and integration tests 
+- Add unit and integration tests
 
 ## Contributing
 
@@ -170,6 +159,7 @@ For any questions or support, please reach out to:
 - Github Issues: [Create an issue](https://github.com/peterihimire/cosmos-core-bkend/issues)
 
 ## Images
+
 ![register](https://res.cloudinary.com/dymhdpka1/image/upload/v1767305703/Screenshot_2026-01-01_at_11.13.15_PM_q39gra.png)
 ![login](https://res.cloudinary.com/dymhdpka1/image/upload/v1767305703/Screenshot_2026-01-01_at_11.13.38_PM_v5evqm.png)
 ![admin](https://res.cloudinary.com/dymhdpka1/image/upload/v1767294223/Screenshot_2026-01-01_at_7.55.41_PM_jzxp9f.png)

@@ -34,14 +34,13 @@ export type UserLoginProps = {
   email: string;
   password: string;
 };
-// When creating a task (all required)
+
 export interface CreateTaskPayload {
   title: string;
   description: string;
   projectId: string;
 }
 
-// When updating a task (partial allowed)
 export interface UpdateTaskPayload {
   id: string;
   data: Partial<Omit<Task, "id" | "createdAt" | "updatedAt">>;

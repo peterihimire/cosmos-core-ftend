@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_API_URL } from "./api";
 
 export const refreshAxios = axios.create({
-  baseURL: "http://localhost:7070/api/cosmos-core/v1/",
+  baseURL: BASE_API_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

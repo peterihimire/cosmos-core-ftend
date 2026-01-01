@@ -6,7 +6,6 @@ import backgroundImg from "../../../../assets/images/pexels-frans-van-heerden-20
 const Register: React.FC = () => {
   return (
     <div className="flex w-full h-screen">
-      {/* Left side */}
       <div
         className="hidden lg:flex relative w-1/2 h-screen bg-cover bg-center text-white"
         style={{
@@ -32,7 +31,6 @@ const Register: React.FC = () => {
         </div>
       </div>
 
-      {/* Right side */}
       <div className="flex-grow w-1/2 h-screen overflow-y-auto lg:w-1/2 p-4 sm:p-4 md:p-8">
         <Form />
       </div>
@@ -41,4 +39,3 @@ const Register: React.FC = () => {
 };
 
 export default Register;
-

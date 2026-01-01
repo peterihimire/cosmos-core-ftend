@@ -16,8 +16,6 @@ import "react-toastify/dist/ReactToastify.css";
 const Form: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  // const location = useLocation();
-  // const from = location?.state?.from?.pathname;
 
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState("");

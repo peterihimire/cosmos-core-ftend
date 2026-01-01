@@ -35,9 +35,9 @@ const userData: UserData | null = userDataString
   : null;
 
 export const registerUser = createAsyncThunk<
-  UserData, // Return type on success
-  UserPayloadProps, // Argument type
-  { rejectValue: string } // Reject payload type
+  UserData,
+  UserPayloadProps,
+  { rejectValue: string }
 >("auth/register", async (payload: UserPayloadProps, thunkApi) => {
   console.log("my reg payload: ", payload);
   try {
@@ -55,8 +55,8 @@ export const registerUser = createAsyncThunk<
 });
 
 export const loginUser = createAsyncThunk<
-  UserData, 
-  UserLoginProps, 
+  UserData,
+  UserLoginProps,
   { rejectValue: string; state: RootState; dispatch: AppDispatch }
 >("auth/login", async (payload: UserLoginProps, thunkApi) => {
   console.log("My login payload: ", payload);
@@ -68,10 +68,8 @@ export const loginUser = createAsyncThunk<
       return thunkApi.rejectWithValue(msg || "Login failed");
     }
 
-    // Save user data to localStorage
     saveToLocalStorage("login_user", data);
 
-    // Return only the data object for Redux
     return data;
   } catch (error) {
     console.log("This is error message,lets see...", error);
@@ -84,9 +82,9 @@ export const loginUser = createAsyncThunk<
 });
 
 export const logoutUser = createAsyncThunk<
-  void, 
-  void, 
-  { rejectValue: string; dispatch: AppDispatch; state: RootState } 
+  void,
+  void,
+  { rejectValue: string; dispatch: AppDispatch; state: RootState }
 >("users/logout", async (_, thunkApi) => {
   try {
     const response = await authAPI.logoutUser();
@@ -162,7 +160,6 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.loading = false;
         state.authenticated = false;
-  
       })
       .addCase(
         logoutUser.rejected,

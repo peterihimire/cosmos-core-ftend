@@ -6,7 +6,6 @@ import backgroundImg from "../../../../assets/images/pexels-frans-van-heerden-20
 const Login: React.FC = () => {
   return (
     <div className="flex w-full h-screen">
-      {/* Left side */}
       <div
         className="hidden lg:flex relative w-1/2 h-screen bg-cover bg-center text-white"
         style={{
@@ -22,14 +21,16 @@ const Login: React.FC = () => {
           <Link to="/" className="text-white font-bold text-base">
             Back To Home
           </Link>
-          <h2 className="text-4xl leading-10 mt-24 max-w-xs">Mini SaaS Platform</h2>
+          <h2 className="text-4xl leading-10 mt-24 max-w-xs">
+            Mini SaaS Platform
+          </h2>
           <p className="text-base leading-5 max-w-xs mt-2">
-            Platform that allows you to create projects and Task Assignments, so that the remote team members can choose the task of thier choice.
+            Platform that allows you to create projects and Task Assignments, so
+            that the remote team members can choose the task of thier choice.
           </p>
         </div>
       </div>
 
-      {/* Right side */}
       <div className="flex-grow w-1/2 h-screen overflow-y-auto lg:w-1/2 p-4 sm:p-4 md:p-8">
         <Form />
       </div>

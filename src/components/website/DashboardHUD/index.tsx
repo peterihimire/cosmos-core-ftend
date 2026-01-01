@@ -23,7 +23,6 @@ const DashboardHUD: React.FC = () => {
 
   return (
     <div className="flex items-center justify-between bg-white shadow px-6 py-4 mb-6 rounded">
-      {/* Left: User Info */}
       <div>
         <h2 className="text-lg font-semibold text-gray-800">
           {user.firstname} {user.lastname}
@@ -40,7 +39,6 @@ const DashboardHUD: React.FC = () => {
         </span>
       </div>
 
-      {/* Right: Actions */}
       <button
         onClick={handleLogout}
         className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm"
