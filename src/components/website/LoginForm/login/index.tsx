@@ -22,10 +22,9 @@ const Login: React.FC = () => {
           <Link to="/" className="text-white font-bold text-base">
             Back To Home
           </Link>
-          <h2 className="text-4xl leading-10 mt-24 max-w-xs">Happy Shopping</h2>
+          <h2 className="text-4xl leading-10 mt-24 max-w-xs">Mini SaaS Platform</h2>
           <p className="text-base leading-5 max-w-xs mt-2">
-            Platform that allows you invest securely, safely with guarantee to
-            their investment.
+            Platform that allows you to create projects and Task Assignments, so that the remote team members can choose the task of thier choice.
           </p>
         </div>
       </div>

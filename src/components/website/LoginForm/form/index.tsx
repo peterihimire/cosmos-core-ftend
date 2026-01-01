@@ -34,10 +34,10 @@ const Form: React.FC = () => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-      const response = await dispatch(loginUser(values)).unwrap();
+        const response = await dispatch(loginUser(values)).unwrap();
         console.log("Response in the form login : ", response);
-         toast.success("Login successful", { position: "top-right" });
-         navigate(from || "/tasks");
+        toast.success("Login successful", { position: "top-right" });
+        navigate(from || "/tasks");
         // if (response.payload.status === "success") {
         //   toast.success(response.payload.msg, { position: "top-right" });
         //   navigate(from || "/tasks");
@@ -47,16 +47,16 @@ const Form: React.FC = () => {
         //   });
         // }
       } catch (err: unknown) {
-         if (typeof err === "string") {
-           setError(err); // unwrap returns rejectWithValue string
-           toast.error(err, { position: "top-right" });
-         } else if (err instanceof Error) {
-           setError(err.message);
-           toast.error(err.message, { position: "top-right" });
-         } else {
-           setError("Something went wrong");
-           toast.error("Something went wrong", { position: "top-right" });
-         }
+        if (typeof err === "string") {
+          setError(err); // unwrap returns rejectWithValue string
+          toast.error(err, { position: "top-right" });
+        } else if (err instanceof Error) {
+          setError(err.message);
+          toast.error(err.message, { position: "top-right" });
+        } else {
+          setError("Something went wrong");
+          toast.error("Something went wrong", { position: "top-right" });
+        }
         // if (err instanceof Error) {
         //   setError(err.message);
         // } else {
@@ -83,7 +83,7 @@ const Form: React.FC = () => {
     <div className="max-w-md mx-auto p-6 bg-white shadow rounded-md">
       <h2 className="text-2xl font-semibold mb-2">Welcome Back!</h2>
       <p className="text-gray-500 mb-6">
-        Login to your Benkih account to access a wide range of services
+        Login to your Platform account to claim a task of your choice
       </p>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -167,20 +167,10 @@ const Form: React.FC = () => {
         </button>
 
         <div className="text-center mt-4">
-          <span className="text-gray-600">New to Benkih? </span>
+          <span className="text-gray-600">New to Platform? </span>
           <Link to="/auth/register" className="text-blue-500 hover:underline">
             Create Account
           </Link>
-        </div>
-
-        <div
-          className="mt-6 flex justify-center items-center space-x-2 cursor-pointer"
-          // onClick={handleGoogleLogin}
-        >
-          {/* <img src={googleGLogo} alt="Google" className="h-5 w-5" /> */}
-          <span className="text-gray-700 font-medium">
-            Continue with Google
-          </span>
         </div>
       </form>
 

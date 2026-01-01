@@ -7,14 +7,20 @@ export interface Task {
   status: TaskStatus;
   projectId: string;
   assignedTo?: string | null;
-  claimedAt?: string | null; // ISO string from backend
-  expiresAt: string; // ISO string
+  claimedAt?: string | null;
+  expiresAt: string;
   createdAt?: string;
   updatedAt?: string;
 }
 
 export type TaskPayloadProps = {
   taskId: string;
+};
+
+export type AddNewTaskPayload = {
+  title: string;
+  description: string;
+  projectId: string;
 };
 
 export type UserPayloadProps = {
@@ -28,3 +34,15 @@ export type UserLoginProps = {
   email: string;
   password: string;
 };
+// When creating a task (all required)
+export interface CreateTaskPayload {
+  title: string;
+  description: string;
+  projectId: string;
+}
+
+// When updating a task (partial allowed)
+export interface UpdateTaskPayload {
+  id: string;
+  data: Partial<Omit<Task, "id" | "createdAt" | "updatedAt">>;
+}

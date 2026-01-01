@@ -1,5 +1,5 @@
 import $axios from "./config";
-import type { TaskPayloadProps } from "../../types/types";
+import type { TaskPayloadProps, CreateTaskPayload, UpdateTaskPayload } from "../../types/types";
 
 console.log("This is axios...", $axios);
 const taskAPI = {
@@ -11,8 +11,16 @@ const taskAPI = {
     return $axios.get("/tasks");
   },
 
-  async getTasksFilter(query: string) {
-    return $axios.get(`/tasks?${query}`);
+  async createTask(payload: CreateTaskPayload) {
+    return $axios.post("/tasks", payload);
+  },
+
+  async updateTask(payload: UpdateTaskPayload) {
+    return $axios.patch(`/tasks/${payload.id}`,payload.data);
+  },
+
+  async deleteTask(payload: TaskPayloadProps) {
+    return $axios.delete(`/tasks/${payload.taskId}`);
   },
 };
 export default taskAPI;

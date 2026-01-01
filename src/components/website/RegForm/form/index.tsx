@@ -105,7 +105,7 @@ const Form: React.FC = () => {
     <div className="max-w-md mx-auto p-6 bg-white shadow rounded">
       <h2 className="text-2xl font-bold mb-2">Register Account</h2>
       <p className="text-gray-500 mb-6">
-        Register to your benkih account to access wide range of services
+        Register to your Platform account to claim a task of your choice
       </p>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -278,16 +278,9 @@ const Form: React.FC = () => {
         </Link>
       </div>
 
-      {/* Google Register */}
-      <div className="mt-6 flex justify-center gap-2 items-center cursor-pointer border rounded px-4 py-2 hover:bg-gray-100">
-        {/* <img src={googleGLogo} alt="Google Logo" className="w-5 h-5" /> */}
-        <span>Register with Google</span>
-      </div>
-
       <ToastContainer />
     </div>
   );
 };
 
 export default Form;
-
