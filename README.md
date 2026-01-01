@@ -1,73 +1,176 @@
-# React + TypeScript + Vite
+# Cosmos Core Assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Introduction
 
-Currently, two official plugins are available:
+This project is a lightweight SaaS Platform is designed to streamline task assignments and tracking for remote teams. It provides a centralized system where team admins can manage projects and tasks, while team members can claim and update tasks **status** to completed in real time. The platform ensures accountability, visibility, and efficiency across distributed teams by integrating automated features and audit logging.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **Authentication**: User authentication and authorization
+- **Admin Project & Task Management**: Create, update, and delete projects and tasks.
+- **Task Assignment & Automation**: Users can claim open tasks, and tasks are automatically expired or reassigned when needed.
+- **Audit Logging**: All critical actions of task claim etc. are logged to maintain visibility and accountability.
+- **Role-Based Access Control**: (ADMIN | USER) have access permissions tailored to their responsibilities.
+- **Resilient & Reliable**: Handles access token and refresh token expiration securely and gracefully
+- **Error Handling & Resilience**: Handles token expiration and ensure app stability
+<!-- - **Rate Limit**: Rate Limit on the claim task API -->
+- **Polling for Real-Time Updates**: Atomic updates with conditions for expiring and re-assigning task
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Table of Contents
 
-## Expanding the ESLint configuration
+- [Setup](#setup)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Running the Server](#running-the-server)
+- [API Documentation](#api-documentation)
+- [Design Decisions](#design-decisions)
+- [Trade Offs](#trade-offs)
+- [How Race Condition Was Handled](#how-race-condition-was-handled)
+- [How Task Expiration Works](#how-task-expiration-works)
+- [Future Improvements](#future-improvements)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Images](#images)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Setup
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Follow these instructions to set up the project on your local machine.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Frontend**: React, Redux Toolkit, Tailwind CSS, Axios
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+<!-- **Backend**: Node.js, Express, TypeScript -->
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**Authentication**: JWT (access token & refresh token)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+<!-- **Database**: MongoDB and Mongoose -->
+
+**API Requests**: Axios with interceptors for token refresh and error handling
+
+## Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/peterihimire/cosmos-core-ftend.git
+   ```
+
+2. Change directory into the project folder:
+
+   ```sh
+   cd cosmos-core-ftend
+   ```
+
+3. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+4. Set up the environment variables (See Environment Variables):
+
+   Create a `.env` file in the root directory and copy contents of `.env.example` to your created `.env` file.
+
+   ```sh
+   cp .env.example .env
+   ```
+
+## Environment Variables
+
+The project requires several environment variables to be configured. Here’s a brief overview of each:
+
+- `VITE_BASE_API_URL`=https://your-backend-server.com/api
+- `VITE_NODE_ENV`=development
+
+
+
+Ensure these variables are set in your `.env` file as specified in the [Installation](#installation) section.
+
+## Running the Server
+
+1. Start the server:
+
+   ```sh
+   npm run dev
+   # or
+   yarn run dev
+   ```
+
+## API Documentation
+
+Visit the Postman documentation [Link](https://documenter.getpostman.com/view/12340633/2sBXVcjsQz) of this mini task management SaaS app.
+
+## Architechture & Design Decisions
+
+**React + Redux Toolkit**:
+
+- Redux Toolkit is used for state management to handle tasks, user sessions, and UI updates.
+-	Async thunks (createAsyncThunk) manage API calls for CRUD operations on tasks.
+
+**Token-based Authentication with Refresh**:
+
+- Access tokens expire quickly (e.g., 2 hours)
+- Refresh tokens stored as HTTP-only cookies (e.g., 5 days)
+- Automatic token refresh handled in frontend Axios interceptors.
+
+**Error Isolation**:
+- Each slice (tasks, auth) handles its own errors to avoid global app failure.
+- Axios interceptors retry requests when tokens expire, ensuring seamless user experience.
+
+**Real-Time Updates**:
+
+- Polling every 5 minutes keeps the task list up-to-date.
+- Chosen over WebSockets for simplicity and to reduce backend complexity.
+
+**Role-Based UI Controls:**:
+
+-	ADMIN role can see create, edit, delete tasks on the UI, but not functional
+-	USER role can claim and complete tasks only 
+
+**TypeScript**:
+
+- Used typescript for type safety and bug prevention
+- Helps in self documenting
+- Helps for scalability and team collaboration
+
+**Protected Routes For Authenticated Users**:
+
+- Only authenticated users can view task
+
+
+## Future Improvements
+
+- Replace polling with WebSockets for real-time updates.
+- Add email notifications for task assignments & expirations
+- Implement more granular roles & permissions
+- Add unit and integration tests 
+
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Create a pull request.
+
+## License
+
+This project is licensed under the MIT License.
+
+## Contact
+
+For any questions or support, please reach out to:
+
+- Email: peterihimire@gmail.com
+- Github Issues: [Create an issue](https://github.com/peterihimire/cosmos-core-bkend/issues)
+
+## Images
+![register](https://res.cloudinary.com/dymhdpka1/image/upload/v1767305703/Screenshot_2026-01-01_at_11.13.15_PM_q39gra.png)
+![login](https://res.cloudinary.com/dymhdpka1/image/upload/v1767305703/Screenshot_2026-01-01_at_11.13.38_PM_v5evqm.png)
+![admin](https://res.cloudinary.com/dymhdpka1/image/upload/v1767294223/Screenshot_2026-01-01_at_7.55.41_PM_jzxp9f.png)
+![user](https://res.cloudinary.com/dymhdpka1/image/upload/v1767294739/Screenshot_2026-01-01_at_8.11.51_PM_knukmt.png)

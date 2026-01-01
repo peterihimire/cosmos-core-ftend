@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const baseURL = "http://localhost:7070/api/cosmos-core/v1/";
+import { BASE_API_URL } from "./api";
+const baseURL = BASE_API_URL;
 
 const config = {
   headers: {
