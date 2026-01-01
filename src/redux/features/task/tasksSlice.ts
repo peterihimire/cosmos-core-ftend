@@ -7,11 +7,18 @@ import type {
   UpdateTaskPayload,
 } from "../../../types/types";
 
+export interface User {
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+}
+
 export interface Task {
   id: string;
   title: string;
   status: "OPEN" | "IN_PROGRESS" | "EXPIRED" | "COMPLETED";
-  assignedTo?: string;
+  assignedTo?: User | null;
   claimedAt?: string;
   expiresAt: string;
   projectId: string;

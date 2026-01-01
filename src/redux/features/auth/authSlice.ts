@@ -12,6 +12,7 @@ import { AxiosError } from "axios";
 import type { UserPayloadProps, UserLoginProps } from "../../../types/types";
 
 interface UserData {
+  _id: string;
   firstname: string;
   lastname: string;
   email: string;
@@ -54,8 +55,8 @@ export const registerUser = createAsyncThunk<
 });
 
 export const loginUser = createAsyncThunk<
-  UserData, // Return type
-  UserLoginProps, // Argument type
+  UserData, 
+  UserLoginProps, 
   { rejectValue: string; state: RootState; dispatch: AppDispatch }
 >("auth/login", async (payload: UserLoginProps, thunkApi) => {
   console.log("My login payload: ", payload);
@@ -83,9 +84,9 @@ export const loginUser = createAsyncThunk<
 });
 
 export const logoutUser = createAsyncThunk<
-  void, // Return type
-  void, // Argument type (payload)
-  { rejectValue: string; dispatch: AppDispatch; state: RootState } // ThunkAPI type
+  void, 
+  void, 
+  { rejectValue: string; dispatch: AppDispatch; state: RootState } 
 >("users/logout", async (_, thunkApi) => {
   try {
     const response = await authAPI.logoutUser();
@@ -161,7 +162,7 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.loading = false;
         state.authenticated = false;
-        // state.userData = null;
+  
       })
       .addCase(
         logoutUser.rejected,

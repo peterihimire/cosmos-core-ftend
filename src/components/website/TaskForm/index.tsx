@@ -1,6 +1,4 @@
-import React, {
-  // useEffect
-} from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { Task } from "../../../redux/features/task/tasksSlice";
@@ -9,14 +7,38 @@ import {
   createTask,
   updateTask,
 } from "../../../redux/features/task/tasksSlice";
+import projectAPI from "../../../redux/api/project";
 
 interface TaskFormProps {
-  task?: Task; // undefined for new task
+  task?: Task;
   onClose: () => void;
+}
+
+interface Project {
+  _id: string;
+  name: string;
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
   const dispatch = useAppDispatch();
+  const [projects, setProjects] = useState<Project[]>([]); // local state for projects
+  const [loadingProjects, setLoadingProjects] = useState(false);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      setLoadingProjects(true);
+      try {
+        const response = await projectAPI.getProjects(); // call API
+        console.log("project response :", response);
+        setProjects(response.data.data); // adjust based on API shape
+      } catch (err) {
+        console.error("Failed to load projects", err);
+      } finally {
+        setLoadingProjects(false);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -72,7 +94,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
               value={formik.values.description}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-25 border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             />
             {formik.touched.description && formik.errors.description && (
               <p className="text-red-500 text-sm">
@@ -88,10 +110,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onClose }) => {
               value={formik.values.projectId}
               onChange={formik.handleChange}
               className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={loadingProjects}
             >
-              <option value="6954060b90c2bf884bc55a3a">Project One</option>
-              <option value="6954060b90c2bf884bc55a2a">Project Two</option>
-              <option value="6954060b90c2bf884bc55a1a">Project Three</option>
+              <option value="">Select a project</option>
+              {projects.map((proj) => (
+                <option key={proj._id} value={proj._id}>
+                  {proj.name}
+                </option>
+              ))}
             </select>
           </div>
 

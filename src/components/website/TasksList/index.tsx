@@ -25,7 +25,13 @@ const TasksList: React.FC = () => {
     (state: RootState) => state.auth.userData?.role
   );
 
-  const [modalTask, setModalTask] = useState<Task | null>(null); // null = create new
+  const currentUserId = useAppSelector(
+    (state: RootState) => state.auth.userData?._id
+  );
+
+  console.log(currentUserId);
+
+  const [modalTask, setModalTask] = useState<Task | null>(null);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -84,7 +90,10 @@ const TasksList: React.FC = () => {
                 </span>
               </p>
               <p className="text-sm text-gray-600 mb-2">
-                Assigned To: {task.assignedTo || "Unassigned"}
+                Assigned To:
+                {task.assignedTo?.firstname
+                  ? `${task.assignedTo.firstname} ${task.assignedTo.lastname}`
+                  : "Unassigned"}
               </p>
               <p className="text-sm text-gray-500">{task.description}</p>
             </div>
@@ -108,6 +117,22 @@ const TasksList: React.FC = () => {
                   Claim
                 </button>
               )}
+              {task.status === "IN_PROGRESS" &&
+                task.assignedTo?._id === currentUserId && (
+                  <button
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm"
+                    // onClick={() =>
+                    //   dispatch(
+                    //     updateTask({
+                    //       id: task.id,
+                    //       data: { status: "COMPLETED" },
+                    //     })
+                    //   )
+                    // }
+                  >
+                    Complete
+                  </button>
+                )}
             </div>
           </div>
         ))}
